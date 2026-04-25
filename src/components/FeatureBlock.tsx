@@ -1,0 +1,72 @@
+import Image from 'next/image';
+import type { FeatureBlock as FeatureBlockType, FeatureBullet } from '@/lib/types';
+
+interface FeatureBlockProps {
+  block: FeatureBlockType;
+}
+
+export function FeatureBlock({ block }: FeatureBlockProps) {
+  const isImageLeft = block.layout === 'image-left';
+  const textColClass = isImageLeft ? 'md:order-2' : 'md:order-1';
+  const imgColClass = isImageLeft ? 'md:order-1' : 'md:order-2';
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-[530px_1fr] gap-8 sm:gap-10 lg:gap-16 items-center">
+      {/* Text column */}
+      <div className={`${textColClass} flex flex-col gap-5 sm:gap-[25px]`}>
+        <div className="flex flex-col gap-3">
+          <h3 className="font-semibold text-[24px] sm:text-[28px] md:text-[34px] lg:text-[38px] leading-[1.15] tracking-[-1px] text-[#001233]">
+            {block.heading}
+          </h3>
+          <p className="font-normal text-[16px] sm:text-[18px] leading-[1.4] text-[#344054]">
+            {block.description}
+          </p>
+        </div>
+
+        {block.bullets && block.bullets.length > 0 && (
+          <ul className="flex flex-col gap-3 sm:gap-[18px]">
+            {block.bullets.map((bullet: FeatureBullet, i: number) => (
+              <li
+                key={i}
+                className="flex items-start gap-3 sm:gap-4 font-normal text-[15px] sm:text-[16px] leading-[1.4] text-[#001233]"
+              >
+                <span className="flex-shrink-0 mt-0.5">
+                  <svg width="20" height="20" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M11.7066 4.86813C11.3765 4.95774 11.1814 5.29795 11.271 5.62806C11.3771 6.01906 11.4309 6.42517 11.4309 6.83477C11.4309 8.06246 10.9528 9.21663 10.0848 10.0848C9.21663 10.9529 8.06246 11.4309 6.83477 11.4309C5.60709 11.4309 4.45291 10.9528 3.58479 10.0848C2.71666 9.21663 2.23867 8.06246 2.23867 6.83477C2.23867 5.60709 2.71678 4.45291 3.58479 3.58479C4.45291 2.71666 5.60709 2.23867 6.83477 2.23867C7.44905 2.23867 8.04511 2.3576 8.60647 2.59236C8.92197 2.72427 9.28477 2.57551 9.41681 2.25988C9.54873 1.94426 9.39997 1.58158 9.08434 1.44954C8.37084 1.15126 7.61404 1 6.83477 1C6.0555 1 5.2831 1.15438 4.56336 1.45877C3.86846 1.75268 3.24458 2.17327 2.70892 2.70892C2.17327 3.24458 1.75268 3.86846 1.45877 4.56336C1.15438 5.28323 1 6.04739 1 6.83477C1 7.62215 1.15438 8.38644 1.45877 9.10618C1.75268 9.80108 2.17327 10.425 2.70892 10.9606C3.24458 11.4963 3.86846 11.9169 4.56336 12.2108C5.2831 12.5152 6.04727 12.6695 6.83477 12.6695C7.62228 12.6695 8.38644 12.5152 9.10618 12.2108C9.80108 11.9169 10.425 11.4963 10.9606 10.9606C11.4963 10.425 11.9169 9.80108 12.2108 9.10618C12.5152 8.38644 12.6695 7.62228 12.6695 6.83477C12.6695 6.31559 12.6013 5.80041 12.4665 5.30369C12.377 4.97359 12.0369 4.77865 11.7066 4.86813Z"
+                      fill="#196AFF"
+                    />
+                    <path
+                      d="M4.90086 6.11596C4.659 5.87409 4.26687 5.87409 4.025 6.11596C3.78313 6.35783 3.78313 6.74995 4.025 6.99182L6.0936 9.06042C6.21004 9.17687 6.36767 9.24176 6.53153 9.24176C6.54302 9.24176 6.55437 9.24139 6.56585 9.24076C6.74183 9.23103 6.90519 9.14679 7.01527 9.00913L11.4368 3.47913C11.6503 3.21193 11.607 2.82229 11.3398 2.60863C11.0726 2.39497 10.683 2.4384 10.4693 2.7056L6.48012 7.69509L4.90086 6.11583V6.11596Z"
+                      fill="#196AFF"
+                    />
+                  </svg>
+                </span>
+                {bullet.text}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {block.closing_text && (
+          <p className="font-normal text-[16px] sm:text-[18px] leading-[1.4] text-[#344054]">
+            {block.closing_text}
+          </p>
+        )}
+      </div>
+
+      {/* Image column — image only, no decorative cards */}
+      {block.image && (
+        <div className={`${imgColClass} relative w-full max-w-[622px] aspect-[622/503] mx-auto lg:mx-0`}>
+          <Image
+            src={block.image}
+            alt=""
+            fill
+            className="object-contain"
+            unoptimized
+          />
+        </div>
+      )}
+    </div>
+  );
+}
