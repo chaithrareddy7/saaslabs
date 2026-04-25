@@ -1,5 +1,6 @@
 import Image from 'next/image';
 
+import { MobileMenu } from '@/components/MobileMenu';
 import type { GlobalContent, NavDropdownItem, NavLink } from '@/lib/types';
 
 interface HeaderProps {
@@ -245,16 +246,20 @@ export function Header({ global }: HeaderProps) {
             {global.nav_cta_secondary_label && (
               <a
                 href={global.nav_cta_secondary_url}
-                className="btn-secondary btn-md hidden md:inline-flex"
+                className="btn-secondary btn-md hidden lg:inline-flex"
               >
                 {global.nav_cta_secondary_label}
               </a>
             )}
             {global.nav_cta_primary_label && (
-              <a href={global.nav_cta_primary_url} className="btn-primary btn-md">
+              <a
+                href={global.nav_cta_primary_url}
+                className="btn-primary btn-md hidden sm:inline-flex"
+              >
                 {global.nav_cta_primary_label}
               </a>
             )}
+            <MobileMenu global={global} />
           </div>
         )}
       </div>

@@ -2,10 +2,18 @@
 
 A pixel-perfect landing page built with **Next.js 15 (App Router)** and **Tailwind CSS v4**, sourcing its content from a **headless WordPress** instance via the REST API + ACF.
 
-- **Live (Next.js)**: _add Vercel URL after deploy_
-- **WordPress API**: `https://saaslabs.vynario.com`
-- **Frontend repo**: https://github.com/chaithrareddy7/saaslabs
-- **WordPress theme repo**: _add link_
+### Live links
+
+| | URL |
+|---|---|
+| **Next.js app (production domain)** | https://mainsaaslabs.vynario.com/ |
+| **Next.js app (Vercel default)** | https://saaslab-xi.vercel.app/ |
+| **Next.js app (latest deployment)** | https://saaslab-3di7hdj7x-chaithrareddy7s-projects.vercel.app/ |
+| **WordPress (headless CMS)** | https://saaslabs.vynario.com/ |
+| **WordPress REST root** | https://saaslabs.vynario.com/wp-json |
+| **Custom global endpoint** | https://saaslabs.vynario.com/wp-json/saas-test/v1/global |
+| **Frontend repo (this)** | https://github.com/chaithrareddy7/saaslabs |
+| **WordPress theme repo** | _add link_ |
 
 ---
 
@@ -55,19 +63,22 @@ npm run start
 ```
 src/
 ├── app/
-│   ├── layout.tsx        Root layout, fonts, metadata
-│   ├── page.tsx          Server Component — fetches CMS data and renders
+│   ├── layout.tsx        Root layout — fetches global content, mounts Header/Footer
+│   ├── page.tsx          Server Component — fetches landing page, generateMetadata for SEO
 │   ├── loading.tsx       Streaming skeleton (loading state)
 │   ├── error.tsx         Client error boundary (API failure UI)
 │   ├── not-found.tsx     404 / empty-page state
-│   └── globals.css       Tailwind v4 + @theme tokens
+│   └── globals.css       Tailwind v4 @theme tokens + component primitives
 ├── components/
+│   ├── Header.tsx        Sticky header with desktop mega menu
+│   ├── Footer.tsx        Footer with chat-bubble pattern
+│   ├── MobileMenu.tsx    Client component — drawer + accordion sub-menus
+│   ├── FeatureBlock.tsx  Reusable text+image feature row
 │   ├── Button.tsx        Reusable primary/secondary CTA
-│   ├── CheckIcon.tsx     Inline SVG check
-│   ├── SocialIcon.tsx    Brand glyphs (FB / X / IG / LI / YT)
-│   └── FeatureBlock.tsx  Reusable text+image feature row
+│   ├── CheckIcon.tsx     Inline SVG check (uses currentColor)
+│   └── SocialIcon.tsx    Brand glyphs (FB / X / IG / LI / YT)
 └── lib/
-    ├── api/wordpress.ts  Service layer — typed wpFetch + getLandingPage
+    ├── api/wordpress.ts  Service layer — typed wpFetch, getLandingPage, getGlobalContent
     └── types.ts          Strongly-typed ACF field contracts
 ```
 
@@ -78,7 +89,8 @@ src/
 **Service layer.** All WP traffic flows through `lib/api/wordpress.ts`:
 - A typed `wpFetch<T>(endpoint)` helper centralises URL construction, headers, and error handling.
 - `WordPressAPIError` is thrown for network failures, non-2xx responses, and bad JSON — preserving status code and endpoint for the error boundary.
-- `getLandingPage(slug?)` is the only consumer-facing function the page imports.
+- `getLandingPage(slug?)` returns the `Test-LP` page (with full ACF body fields) and is consumed by the page Server Component + `generateMetadata`.
+- `getGlobalContent()` hits the custom `/wp-json/saas-test/v1/global` endpoint for header/footer data and **never throws** — it swallows errors and returns `null` so the root layout can still render `loading`/`error`/`not-found` even if WP is unreachable.
 
 **ISR with `revalidate: 60`.** The fetch uses `next: { revalidate: 60 }` so pages are cached at the edge and refreshed in the background each minute — content updates in WP propagate within a minute without a redeploy.
 
@@ -89,9 +101,17 @@ src/
 
 **Type-safe CMS contract.** `lib/types.ts` mirrors every ACF field as a TypeScript interface (`LandingPageACF`, `FeatureBlock`, `ProblemCard`, etc.), so any drift between WP schema and frontend surfaces as a compile error.
 
-**Tailwind v4 with `@theme` tokens.** Design tokens (brand colours, surface colours, font variable) live as CSS variables in `globals.css` under `@theme`. This avoids hard-coding values across components and gives a single place to retheme.
+**Tailwind v4 with `@theme` tokens.** Design tokens live as CSS variables in `globals.css` under `@theme`:
+- `gray-{50…900}` (overrides Tailwind defaults to the JustCall scale)
+- `brand-{50,100,300,400,500,600,900}`
+- `cream-{25,100}`, `success-500`
+- Component primitives: `.heading-display`, `.heading-section`, `.heading-feature`, `.lead`, `.lead-sm`, `.btn-primary`, `.btn-secondary`, `.btn-md/lg`, `.section`, `.container-page/content`
 
-**Reusable components.** `Button`, `FeatureBlock`, `SocialIcon`, and `CheckIcon` are isolated; the page-level file (`page.tsx`) is purely a layout/composition file consuming the CMS shape.
+JSX consumes these via named utilities (`bg-cream-25`, `text-brand-500`, etc) — there are zero arbitrary `text-[#XXXXXX]` literals left in the components.
+
+**Reusable components.** Header, Footer, MobileMenu, FeatureBlock, Button, CheckIcon, and SocialIcon are isolated; `page.tsx` is purely a composition file consuming the CMS shape.
+
+**Mobile nav.** `MobileMenu` is the only client component — a hamburger-triggered right-side drawer with accordion sub-menus, body-scroll lock, Escape-key close, and the same CTAs as the desktop header.
 
 **Image handling.** All hero / feature images come from WordPress; `next.config.ts` whitelists `saaslabs.vynario.com` and `placehold.co` under `images.remotePatterns`. Since URLs are CMS-controlled, `unoptimized` is set on `<Image>` to avoid server-side optimization failures on arbitrary remote hosts.
 
@@ -121,14 +141,8 @@ Skipping Next.js image optimization keeps things working with any WP-controlled 
 **Hand-coded SVGs for trust-badge / social icons.**
 Avoids pulling in an icon library (lucide / heroicons). Trade-off: every new icon needs a dedicated SVG file or branch in `SocialIcon.tsx`. For five social platforms this is fine; at >15 icons I would move to a tree-shakeable icon package.
 
-**Tailwind v4 + arbitrary-value classes.**
-The Figma uses very specific pixel measurements (e.g., `text-[56px]`, `tracking-[-2px]`), so styles are full of arbitrary values rather than a curated scale. This trades reusability for fidelity. Tokenizing repeated values (e.g., a `text-h1` utility) would be the next refactor pass.
-
-**Inline structural CSS for the hero / CTA layouts.**
-Because the Figma spec is precise about widths (634px text col, 520px image, 100px gap), those magic numbers live in JSX. They're documented by surrounding comments and section headers; pulling them into named utilities would help if more pages reused the pattern.
-
-**No mobile nav drawer.**
-Nav links are hidden below `lg`. A hamburger menu was out of the spec scope; primary CTA stays visible so the conversion path still works on mobile.
+**Tailwind v4 + arbitrary-value classes for layout.**
+Color, typography, and spacing are all tokenised via `@theme`, but a handful of layout magic numbers (634px text col, 520px image, 100px gap, 670px CTA wrap) still live as arbitrary values in JSX because they came directly from the Figma spec. This trades a small amount of reusability for fidelity to the design.
 
 **Single landing page only.**
 `getLandingPage()` is hard-wired to the configured slug. Generalising to dynamic routes (`app/[slug]/page.tsx`) would be a one-file change but wasn't required.
