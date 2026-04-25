@@ -114,6 +114,10 @@ export interface LandingPageACF {
   footer_copyright: string;
   footer_links: LinkItem[] | false;
   footer_social: SocialLink[] | false;
+
+  seo_title: string;
+  seo_description: string;
+  og_image: string | false;
 }
 
 export interface WPPage {

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getLandingPage } from '@/lib/api/wordpress';
@@ -8,6 +9,31 @@ import type {
   ProblemCard,
   FeatureBlock as FeatureBlockType,
 } from '@/lib/types';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getLandingPage();
+  const acf = page?.acf;
+
+  const title = acf?.seo_title || '';
+  const description = acf?.seo_description || '';
+  const ogImage = acf && acf.og_image ? acf.og_image : undefined;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      ...(ogImage ? { images: [{ url: ogImage }] } : {}),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      ...(ogImage ? { images: [ogImage] } : {}),
+    },
+  };
+}
 
 export default async function Home() {
   const page = await getLandingPage();
@@ -165,7 +191,7 @@ export default async function Home() {
           {/* Text column */}
           <div className="flex flex-col items-start gap-6 w-full lg:w-[644px]">
             <div className="flex flex-col items-start gap-2 w-full">
-              <h2 className="font-semibold text-[32px] sm:text-[40px] md:text-[48px] lg:text-[56px] leading-[1.14] tracking-[-1px] lg:tracking-[-2px] text-[#101828]">
+              <h2 className="font-semibold text-[32px] sm:text-[40px] md:text-[48px] lg:text-[56px] leading-[1.14] tracking-[-1px] lg:tracking-[-2px] text-[#101828] lg:max-w-[670px]">
                 {acf.cta_heading}
               </h2>
               <p className="font-normal text-[16px] sm:text-[18px] leading-[1.4] text-[#001233]">

@@ -119,7 +119,7 @@ function MegaMenu({
   ctaUrl: string;
 }) {
   return (
-    <div className="absolute left-1/2 -translate-x-1/2 top-full hidden group-hover:block z-50">
+    <div className="absolute left-1/2 -translate-x-1/2 top-full hidden group-hover:block group-focus-within:block z-50">
       <div className="w-[280px] bg-white rounded-b-xl shadow-[0_12px_40px_rgba(8,15,52,0.10)] border-x border-b border-slate-100 p-3 flex flex-col">
         <ul className="flex flex-col">
           {items.map((item, i) => (
@@ -132,10 +132,10 @@ function MegaMenu({
                   <DropdownItemIcon index={i} />
                 </span>
                 <div className="flex flex-col gap-0.5 min-w-0">
-                  <span className="text-[14px] font-semibold leading-[1.3] text-[#101828] group-hover/item:text-[#004CE6]">
+                  <span className="text-[12px] font-semibold leading-[20px] text-[#667085] group-hover/item:text-[#004CE6]">
                     {item.title}
                   </span>
-                  <span className="text-[12px] leading-[1.4] text-[#667085] whitespace-pre-line">
+                  <span className="text-[12px] font-normal leading-[17px] text-[#98A2B3] whitespace-pre-line">
                     {item.description}
                   </span>
                 </div>
@@ -165,20 +165,25 @@ function NavItem({ link }: { link: NavLink }) {
 
   if (!hasMenu) {
     return (
-      <a href={link.url} className="text-[15px] text-slate-700 hover:text-slate-900 transition">
+      <a
+        href={link.url}
+        className="flex items-center h-full text-[15px] text-slate-700 hover:text-slate-900 transition"
+      >
         {link.label}
       </a>
     );
   }
 
   return (
-    <div className="group relative">
+    <div className="group relative h-full flex items-center">
       <button
         type="button"
-        className="flex items-center gap-1 text-[15px] text-slate-700 hover:text-[#004CE6] group-hover:text-[#004CE6] transition cursor-pointer"
+        className="flex items-center h-full gap-1 text-[15px] text-slate-700 hover:text-[#004CE6] group-hover:text-[#004CE6] group-focus-within:text-[#004CE6] transition cursor-pointer focus:outline-none"
       >
         {link.label}
-        <ChevronDownIcon />
+        <span className="inline-flex group-hover:rotate-180 group-focus-within:rotate-180">
+          <ChevronDownIcon />
+        </span>
       </button>
       <MegaMenu
         items={link.dropdown_items as NavDropdownItem[]}
@@ -192,10 +197,10 @@ function NavItem({ link }: { link: NavLink }) {
 export function Header({ global }: HeaderProps) {
   return (
     <header className="bg-white border-b border-slate-100 relative z-40">
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 h-14 sm:h-16 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-6 lg:gap-10 min-w-0">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 h-14 sm:h-16 flex items-stretch justify-between gap-4">
+        <div className="flex items-stretch gap-6 lg:gap-10 min-w-0">
           {global?.nav_logo && (
-            <a href="/" className="flex-shrink-0">
+            <a href="/" className="flex-shrink-0 flex items-center">
               <Image
                 src={global.nav_logo}
                 alt="Logo"
@@ -207,7 +212,7 @@ export function Header({ global }: HeaderProps) {
             </a>
           )}
           {global?.nav_links && global.nav_links.length > 0 && (
-            <nav className="hidden lg:flex items-center gap-7">
+            <nav className="hidden lg:flex items-stretch gap-7">
               {global.nav_links.map((link, i) => (
                 <NavItem key={i} link={link} />
               ))}
@@ -216,7 +221,7 @@ export function Header({ global }: HeaderProps) {
         </div>
 
         {global && (
-          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 self-center">
             {global.nav_cta_secondary_label && (
               <a
                 href={global.nav_cta_secondary_url}

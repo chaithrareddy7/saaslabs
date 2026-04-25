@@ -13,9 +13,8 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'JustCall - Help Your Team Sell Better, Every Day',
-  description:
-    'JustCall gives sales managers a system that protects speed, enforces follow-ups, and surfaces problems early.',
+  title: 'JustCall',
+  description: '',
 };
 
 export default async function RootLayout({
