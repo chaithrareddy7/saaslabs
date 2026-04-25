@@ -1,24 +1,38 @@
 import { getUrl, type ACFUrl } from '@/lib/types';
 
+type ButtonVariant = 'primary' | 'secondary';
+type ButtonSize = 'md' | 'lg';
+
 interface ButtonProps {
-  variant: 'primary' | 'secondary';
+  variant: ButtonVariant;
   label: string;
   href: ACFUrl;
+  size?: ButtonSize;
   className?: string;
 }
 
-export function Button({ variant, label, href, className = '' }: ButtonProps) {
-  const base =
-    'px-6 py-3 rounded-md font-semibold text-[15px] transition whitespace-nowrap text-center inline-block';
-  const variants = {
-    primary:
-      'bg-[var(--color-brand-blue)] text-white hover:bg-[var(--color-brand-blue-hover)]',
-    secondary:
-      'border border-[var(--color-brand-blue)] text-[var(--color-brand-blue)] hover:bg-blue-50',
-  };
+const VARIANT_CLASS: Record<ButtonVariant, string> = {
+  primary: 'btn-primary',
+  secondary: 'btn-secondary',
+};
 
+const SIZE_CLASS: Record<ButtonSize, string> = {
+  md: 'btn-md',
+  lg: 'btn-lg',
+};
+
+export function Button({
+  variant,
+  label,
+  href,
+  size = 'md',
+  className = '',
+}: ButtonProps) {
   return (
-    <a href={getUrl(href)} className={`${base} ${variants[variant]} ${className}`}>
+    <a
+      href={getUrl(href)}
+      className={`${VARIANT_CLASS[variant]} ${SIZE_CLASS[size]} ${className}`.trim()}
+    >
       {label}
     </a>
   );

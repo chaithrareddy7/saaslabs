@@ -1,23 +1,152 @@
 @import "tailwindcss";
 
+/* ============================================================================
+   Design tokens
+   Defined once here, consumed everywhere via Tailwind utilities.
+   Avoid arbitrary hex literals in JSX — extend these instead.
+   ========================================================================= */
 @theme {
-  --color-brand-blue: #0066FF;
-  --color-brand-blue-hover: #0052CC;
-  --color-cream: #FFF6D6;
-  --color-cream-soft: #FFFBEA;
-  --color-cream-deep: #FFEDA3;
-  --color-navy: #0A1330;
-  --color-ink: #0A1330;
-  --color-muted: #64748B;
-  --color-surface: #F5F6F8;
-  --color-surface-card: #F0F4FA;
+  /* Neutrals — JustCall gray scale (overrides Tailwind defaults) */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f2f4f7;
+  --color-gray-200: #e4e7ec;
+  --color-gray-300: #d0d5dd;
+  --color-gray-400: #98a2b3;
+  --color-gray-500: #667085;
+  --color-gray-600: #475467;
+  --color-gray-700: #344054;
+  --color-gray-800: #1d2939;
+  --color-gray-900: #101828;
 
-  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  /* Brand blue scale */
+  --color-brand-50: #f6f9ff;
+  --color-brand-100: #b3cdff;
+  --color-brand-300: #4d8bff;
+  --color-brand-400: #196aff;
+  --color-brand-500: #004ce6;
+  --color-brand-600: #0040c2;
+  --color-brand-900: #001233;
+
+  /* Cream / warm surfaces (hero & CTA backgrounds) */
+  --color-cream-25: #fffde6;
+  --color-cream-100: #ffeeb3;
+
+  /* Status */
+  --color-success-500: #00b36e;
+
+  /* Typography */
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Layout */
+  --spacing-section: 60px;
+  --container-narrow: 906px;
+  --container-default: 1200px;
+  --container-wide: 1280px;
 }
 
-html, body {
-  font-family: var(--font-sans);
-  color: var(--color-ink);
-  -webkit-font-smoothing: antialiased;
-  background: #ffffff;
+/* ============================================================================
+   Base layer
+   ========================================================================= */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-gray-900);
+    background: #ffffff;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--color-brand-400);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-brand-500) 24%, transparent);
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* ============================================================================
+   Component primitives
+   ========================================================================= */
+@layer components {
+  /* Layout containers */
+  .container-page {
+    @apply mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-10;
+  }
+  .container-content {
+    @apply mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-10;
+  }
+
+  /* Sections share consistent vertical rhythm */
+  .section {
+    @apply py-10 sm:py-[60px];
+  }
+
+  /* Headings */
+  .heading-display {
+    @apply font-semibold leading-[1.14] tracking-[-1px] text-gray-900 lg:tracking-[-2px];
+    @apply text-[32px] sm:text-[40px] md:text-[48px] lg:text-[56px];
+  }
+  .heading-section {
+    @apply font-semibold leading-[1.15] tracking-[-1px] text-gray-900;
+    @apply text-[24px] sm:text-[28px] md:text-[34px] lg:text-[38px];
+  }
+  .heading-feature {
+    @apply font-semibold leading-[1.15] tracking-[-1px] text-brand-900;
+    @apply text-[24px] sm:text-[28px] md:text-[34px] lg:text-[38px];
+  }
+
+  /* Body copy */
+  .lead {
+    @apply font-normal text-[16px] leading-[1.4] sm:text-[18px];
+  }
+  .lead-sm {
+    @apply font-normal text-[15px] leading-[1.4] sm:text-[16px] md:text-[18px];
+  }
+
+  /* Buttons */
+  .btn-md {
+    @apply h-9 px-3 text-[14px] sm:px-4 sm:text-[15px];
+  }
+  .btn-lg {
+    @apply h-12 px-[30px] text-[16px] leading-[22px];
+  }
+  .btn-primary,
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    border-radius: 0.25rem;
+    font-weight: 600;
+    transition-property: color, background-color, border-color, opacity;
+    transition-duration: 150ms;
+  }
+  .btn-primary {
+    background-color: var(--color-brand-500);
+    color: #ffffff;
+  }
+  .btn-primary:hover {
+    background-color: var(--color-brand-600);
+  }
+  .btn-secondary {
+    border: 1px solid var(--color-brand-500);
+    color: var(--color-brand-500);
+    background-color: transparent;
+  }
+  .btn-secondary:hover {
+    background-color: color-mix(in srgb, var(--color-brand-500) 5%, transparent);
+  }
 }
