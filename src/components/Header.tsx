@@ -21,25 +21,25 @@ function ArrowRightIcon() {
   );
 }
 
-function PhoneOutgoingIcon({ stroke = '#667085' }: { stroke?: string }) {
+function PhoneOutgoingIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
       <g clipPath="url(#clip-phone-out)">
         <path
           d="M4.16667 3.33334H7.5L9.16667 7.5L7.08333 8.75C7.9758 10.5596 9.44039 12.0242 11.25 12.9167L12.5 10.8333L16.6667 12.5V15.8333C16.6667 16.2754 16.4911 16.6993 16.1785 17.0118C15.866 17.3244 15.442 17.5 15 17.5C11.7494 17.3025 8.68346 15.9221 6.38069 13.6193C4.07792 11.3165 2.69754 8.25062 2.5 5C2.5 4.55798 2.67559 4.13405 2.98816 3.82149C3.30072 3.50893 3.72464 3.33334 4.16667 3.33334Z"
-          stroke={stroke}
+          stroke="currentColor"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M12.5 5.83334C12.942 5.83334 13.366 6.00893 13.6785 6.32149C13.9911 6.63405 14.1667 7.05798 14.1667 7.5"
-          stroke={stroke}
+          stroke="currentColor"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M12.5 2.5C13.8261 2.5 15.0979 3.02678 16.0355 3.96447C16.9732 4.90215 17.5 6.17392 17.5 7.5"
-          stroke={stroke}
+          stroke="currentColor"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
@@ -53,19 +53,19 @@ function PhoneOutgoingIcon({ stroke = '#667085' }: { stroke?: string }) {
   );
 }
 
-function MessagesIcon({ stroke = '#196AFF' }: { stroke?: string }) {
+function MessagesIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
       <g clipPath="url(#clip-messages)">
         <path
           d="M17.5 11.6667L15 9.16667H9.16671C8.94569 9.16667 8.73373 9.07887 8.57745 8.92259C8.42117 8.76631 8.33337 8.55435 8.33337 8.33333V3.33333C8.33337 3.11232 8.42117 2.90036 8.57745 2.74408C8.73373 2.5878 8.94569 2.5 9.16671 2.5H16.6667C16.8877 2.5 17.0997 2.5878 17.256 2.74408C17.4122 2.90036 17.5 3.11232 17.5 3.33333V11.6667Z"
-          stroke={stroke}
+          stroke="currentColor"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M11.6667 12.5V14.1667C11.6667 14.3877 11.5789 14.5996 11.4226 14.7559C11.2663 14.9122 11.0543 15 10.8333 15H5L2.5 17.5V9.16666C2.5 8.94565 2.5878 8.73369 2.74408 8.57741C2.90036 8.42113 3.11232 8.33333 3.33333 8.33333H5"
-          stroke={stroke}
+          stroke="currentColor"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
@@ -79,19 +79,19 @@ function MessagesIcon({ stroke = '#196AFF' }: { stroke?: string }) {
   );
 }
 
-function PhoneDotsIcon({ stroke = '#667085' }: { stroke?: string }) {
+function PhoneDotsIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
       <g clipPath="url(#clip-phone-dots)">
         <path
           d="M4.16667 3.33333H7.5L9.16667 7.5L7.08333 8.75C7.9758 10.5596 9.44039 12.0242 11.25 12.9167L12.5 10.8333L16.6667 12.5V15.8333C16.6667 16.2754 16.4911 16.6993 16.1785 17.0118C15.866 17.3244 15.442 17.5 15 17.5C11.7494 17.3025 8.68346 15.9221 6.38069 13.6193C4.07792 11.3165 2.69754 8.25061 2.5 4.99999C2.5 4.55797 2.67559 4.13404 2.98816 3.82148C3.30072 3.50892 3.72464 3.33333 4.16667 3.33333Z"
-          stroke={stroke}
+          stroke="currentColor"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        <path d="M12.5 5.83333V5.84166" stroke="#101828" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M15 5.83333V5.84166" stroke="#101828" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M17.5 5.83333V5.84166" stroke="#101828" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12.5 5.83333V5.84166" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M15 5.83333V5.84166" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M17.5 5.83333V5.84166" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
       </g>
       <defs>
         <clipPath id="clip-phone-dots">
@@ -128,7 +128,7 @@ function MegaMenu({
                 href={item.url}
                 className="group/item flex items-start gap-3 p-3 rounded-lg hover:bg-[#F6F9FF] transition"
               >
-                <span className="flex-shrink-0 mt-0.5">
+                <span className="flex-shrink-0 mt-0.5 text-[#667085] group-hover/item:text-[#196AFF] transition-colors">
                   <DropdownItemIcon index={i} />
                 </span>
                 <div className="flex flex-col gap-0.5 min-w-0">
