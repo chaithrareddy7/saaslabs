@@ -13,7 +13,6 @@ A pixel-perfect landing page built with **Next.js 15 (App Router)** and **Tailwi
 | **WordPress REST root** | https://saaslabs.vynario.com/wp-json |
 | **Custom global endpoint** | https://saaslabs.vynario.com/wp-json/saas-test/v1/global |
 | **Frontend repo (this)** | https://github.com/chaithrareddy7/saaslabs |
-| **WordPress theme repo** | _add link_ |
 
 ---
 
