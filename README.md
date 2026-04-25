@@ -147,8 +147,6 @@ The Figma uses very specific pixel measurements (e.g., `text-[56px]`, `tracking-
 **Inline structural CSS for the hero / CTA layouts.**
 Because the Figma spec is precise about widths (634px text col, 520px image, 100px gap), those magic numbers live in JSX. They're documented by surrounding comments and section headers; pulling them into named utilities would help if more pages reused the pattern.
 
-**No mobile nav drawer.**
-Nav links are hidden below `lg`. A hamburger menu was out of the spec scope; primary CTA stays visible so the conversion path still works on mobile.
 
 **Single landing page only.**
 `getLandingPage()` is hard-wired to the configured slug. Generalising to dynamic routes (`app/[slug]/page.tsx`) would be a one-file change but wasn't required.
