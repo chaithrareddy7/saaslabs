@@ -129,6 +129,7 @@ export default async function Home() {
       </section>
 
       {/* PROBLEM SECTION */}
+      {(acf.problem_heading || (acf.problem_cards && acf.problem_cards.length > 0)) && (
       <section className="bg-white py-10 sm:py-[60px] px-4 sm:px-6 flex flex-col items-center gap-[22px]">
         <div className="flex flex-col items-center gap-[30px] w-full">
           <div className="flex flex-col items-center gap-6 w-full">
@@ -176,8 +177,10 @@ export default async function Home() {
           )}
         </div>
       </section>
+      )}
 
       {/* FEATURES SECTION */}
+      {(acf.features_section_heading || (acf.feature_blocks && acf.feature_blocks.length > 0)) && (
       <section className="bg-white py-10 sm:py-[60px] px-4 sm:px-6 flex flex-col items-center gap-8 sm:gap-10">
         <div className="flex flex-col items-center gap-3 max-w-[1201px]">
           <h2 className="font-semibold text-[24px] sm:text-[28px] md:text-[34px] lg:text-[38px] leading-[1.15] tracking-[-1px] text-center text-[#101828]">
@@ -196,8 +199,10 @@ export default async function Home() {
           </div>
         )}
       </section>
+      )}
 
       {/* FINAL CTA */}
+      {(acf.cta_heading || acf.cta_description) && (
       <section className="bg-[#FFFDE6] py-10 sm:py-[60px] px-4 sm:px-6 flex justify-center">
         <div className="w-full max-w-[1200px] flex flex-col lg:flex-row justify-between items-center gap-10 lg:gap-[137px]">
           {/* Text column */}
@@ -241,6 +246,7 @@ export default async function Home() {
           )}
         </div>
       </section>
+      )}
 
       {/* FOOTER */}
       <footer className="relative bg-[#001233] text-white overflow-hidden">
