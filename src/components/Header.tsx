@@ -228,6 +228,7 @@ export function Header({ global }: HeaderProps) {
                 width={120}
                 height={36}
                 className="h-7 w-auto object-contain sm:h-8"
+                priority
                 unoptimized
               />
             </a>
