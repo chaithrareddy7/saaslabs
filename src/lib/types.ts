@@ -36,6 +36,47 @@ export interface SocialLink {
   url: ACFUrl;
 }
 
+/* ---------- Global header / footer (custom REST endpoint) ---------- */
+
+export interface NavDropdownItem {
+  icon: string | false;
+  title: string;
+  description: string;
+  url: string;
+}
+
+export interface NavLink {
+  label: string;
+  url: string;
+  has_dropdown: boolean;
+  dropdown_items: NavDropdownItem[] | false;
+  textlabel: string;
+  texturl: string;
+}
+
+export interface GlobalFooterLink {
+  label: string;
+  url: string;
+}
+
+export interface GlobalSocialLink {
+  platform: 'facebook' | 'twitter' | 'instagram' | 'linkedin' | 'youtube';
+  url: string;
+}
+
+export interface GlobalContent {
+  nav_logo: string;
+  nav_links: NavLink[];
+  nav_cta_primary_label: string;
+  nav_cta_primary_url: string;
+  nav_cta_secondary_label: string;
+  nav_cta_secondary_url: string;
+  footer_address: string;
+  footer_copyright: string;
+  footer_links: GlobalFooterLink[];
+  footer_social: GlobalSocialLink[];
+}
+
 export interface LandingPageACF {
   nav_logo: string | false;
   nav_links: LinkItem[] | false;

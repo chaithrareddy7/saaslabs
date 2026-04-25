@@ -21,15 +21,14 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const page = await getGlobalContent();
-  const acf = page?.acf ?? null;
+  const global = await getGlobalContent();
 
   return (
     <html lang="en" className={jakarta.variable}>
       <body className="antialiased font-sans">
-        <Header acf={acf} />
+        <Header global={global} />
         {children}
-        <Footer acf={acf} />
+        <Footer global={global} />
       </body>
     </html>
   );

@@ -1,4 +1,4 @@
-import type { WPPage } from '@/lib/types';
+import type { GlobalContent, WPPage } from '@/lib/types';
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL;
 const LANDING_PAGE_SLUG = process.env.NEXT_PUBLIC_LANDING_PAGE_SLUG ?? 'landingpage';
@@ -71,14 +71,14 @@ export async function getLandingPage(
 }
 
 /**
- * Fetch landing-page content for the global layout (Header / Footer).
- * Never throws — returns null on any failure so the root layout can still
- * render loading / error / not-found pages with graceful fallbacks.
- * Same fetch URL as getLandingPage(), so Next.js dedupes the request.
+ * Fetch global header / footer content from the custom REST endpoint
+ * (saas-test/v1/global). Never throws — returns null on any failure so the
+ * root layout can still render loading / error / not-found pages with
+ * graceful fallbacks.
  */
-export async function getGlobalContent(): Promise<WPPage | null> {
+export async function getGlobalContent(): Promise<GlobalContent | null> {
   try {
-    return await getLandingPage();
+    return await wpFetch<GlobalContent>('/wp-json/saas-test/v1/global');
   } catch {
     return null;
   }
