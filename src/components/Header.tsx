@@ -119,8 +119,8 @@ function MegaMenu({
   ctaUrl: string;
 }) {
   return (
-    <div className="absolute left-0 top-full pt-3 hidden group-hover:block z-50">
-      <div className="w-[280px] bg-white rounded-xl shadow-[0_12px_40px_rgba(8,15,52,0.10)] border border-slate-100 p-3 flex flex-col">
+    <div className="absolute left-1/2 -translate-x-1/2 top-full hidden group-hover:block z-50">
+      <div className="w-[280px] bg-white rounded-b-xl shadow-[0_12px_40px_rgba(8,15,52,0.10)] border-x border-b border-slate-100 p-3 flex flex-col">
         <ul className="flex flex-col">
           {items.map((item, i) => (
             <li key={i}>
