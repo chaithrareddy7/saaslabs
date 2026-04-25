@@ -141,8 +141,14 @@ Skipping Next.js image optimization keeps things working with any WP-controlled 
 **Hand-coded SVGs for trust-badge / social icons.**
 Avoids pulling in an icon library (lucide / heroicons). Trade-off: every new icon needs a dedicated SVG file or branch in `SocialIcon.tsx`. For five social platforms this is fine; at >15 icons I would move to a tree-shakeable icon package.
 
-**Tailwind v4 + arbitrary-value classes for layout.**
-Color, typography, and spacing are all tokenised via `@theme`, but a handful of layout magic numbers (634px text col, 520px image, 100px gap, 670px CTA wrap) still live as arbitrary values in JSX because they came directly from the Figma spec. This trades a small amount of reusability for fidelity to the design.
+**Tailwind v4 + arbitrary-value classes.**
+The Figma uses very specific pixel measurements (e.g., `text-[56px]`, `tracking-[-2px]`), so styles are full of arbitrary values rather than a curated scale. This trades reusability for fidelity. Tokenizing repeated values (e.g., a `text-h1` utility) would be the next refactor pass.
+
+**Inline structural CSS for the hero / CTA layouts.**
+Because the Figma spec is precise about widths (634px text col, 520px image, 100px gap), those magic numbers live in JSX. They're documented by surrounding comments and section headers; pulling them into named utilities would help if more pages reused the pattern.
+
+**No mobile nav drawer.**
+Nav links are hidden below `lg`. A hamburger menu was out of the spec scope; primary CTA stays visible so the conversion path still works on mobile.
 
 **Single landing page only.**
 `getLandingPage()` is hard-wired to the configured slug. Generalising to dynamic routes (`app/[slug]/page.tsx`) would be a one-file change but wasn't required.
