@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
+import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
+import { getGlobalContent } from '@/lib/api/wordpress';
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -15,12 +18,19 @@ export const metadata: Metadata = {
     'JustCall gives sales managers a system that protects speed, enforces follow-ups, and surfaces problems early.',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const page = await getGlobalContent();
+  const acf = page?.acf ?? null;
+
   return (
     <html lang="en" className={jakarta.variable}>
-      <body className="antialiased font-sans">{children}</body>
+      <body className="antialiased font-sans">
+        <Header acf={acf} />
+        {children}
+        <Footer acf={acf} />
+      </body>
     </html>
   );
 }

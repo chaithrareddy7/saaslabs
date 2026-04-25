@@ -69,3 +69,17 @@ export async function getLandingPage(
 
   return pages[0];
 }
+
+/**
+ * Fetch landing-page content for the global layout (Header / Footer).
+ * Never throws — returns null on any failure so the root layout can still
+ * render loading / error / not-found pages with graceful fallbacks.
+ * Same fetch URL as getLandingPage(), so Next.js dedupes the request.
+ */
+export async function getGlobalContent(): Promise<WPPage | null> {
+  try {
+    return await getLandingPage();
+  } catch {
+    return null;
+  }
+}
